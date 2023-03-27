@@ -8,6 +8,7 @@ const app=express();
 
 const db="mongodb+srv://rohit:rohit001@cluster0.z2qcruw.mongodb.net/?retryWrites=true&w=majority";
 
+app.use(express.json());
 app.use(authRouter);
 
 mongoose.connect(db).then(()=>{
@@ -16,6 +17,6 @@ mongoose.connect(db).then(()=>{
     console.log(e);
 }); 
 
-app.listen(PORT,()=>{
+app.listen(PORT,"0.0.0.0",()=>{
     console.log(`Connected at port ${PORT}`);
 });

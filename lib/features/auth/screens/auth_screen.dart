@@ -1,4 +1,5 @@
 import 'package:amazon_clone/constants/variables.dart';
+import 'package:amazon_clone/features/auth/services/auth_services.dart';
 import 'package:amazon_clone/features/auth/widgets/custom_signupbutton.dart';
 import 'package:amazon_clone/features/auth/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class _AuthScreenState extends State<AuthScreen> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   final TextEditingController _name = TextEditingController();
-
+  final AuthServices authServices = AuthServices();
   Auth _auth = Auth.signup;
 
   @override
@@ -32,6 +33,20 @@ class _AuthScreenState extends State<AuthScreen> {
     _email.dispose();
     _password.dispose();
     _name.dispose();
+  }
+
+  void signupuser() {
+    // print('object');
+    authServices.signupuser(
+        context: context,
+        email: _email.text,
+        password: _password.text,
+        name: _name.text);
+  }
+
+  void signinuser() {
+    authServices.signinuser(
+        context: context, email: _email.text, password: _password.text);
   }
 
   @override
@@ -49,6 +64,9 @@ class _AuthScreenState extends State<AuthScreen> {
           ListTile(
             tileColor: _auth == Auth.signup ? Colors.white : Colors.transparent,
             title: const Text('Create Account'),
+
+            //great example of using radio button
+
             leading: Radio(
                 activeColor: GlobalVariables.secondaryColor,
                 value: Auth.signup,
@@ -63,8 +81,11 @@ class _AuthScreenState extends State<AuthScreen> {
             Container(
               color: Colors.white,
               padding: const EdgeInsets.all(8),
+
+              //using form efficiently
+
               child: Form(
-                key: _signin,
+                key: _signup,
                 child: Column(
                   children: [
                     Customtextfiel(controller: _name, hinttext: 'Name'),
@@ -76,7 +97,13 @@ class _AuthScreenState extends State<AuthScreen> {
                     const SizedBox(height: 10),
                     Customtextfiel(controller: _password, hinttext: 'Password'),
                     const SizedBox(height: 10),
-                    SignupButton(text: 'Sign Up', onTap: () {}),
+                    SignupButton(
+                        text: 'Sign Up',
+                        onTap: () {
+                          if (_signup.currentState!.validate()) {
+                            signupuser();
+                          }
+                        }),
                   ],
                 ),
               ),
@@ -109,7 +136,13 @@ class _AuthScreenState extends State<AuthScreen> {
                     const SizedBox(height: 10),
                     Customtextfiel(controller: _password, hinttext: 'Password'),
                     const SizedBox(height: 10),
-                    SignupButton(text: 'Sign In', onTap: () {}),
+                    SignupButton(
+                        text: 'Sign In',
+                        onTap: () {
+                          if (_signin.currentState!.validate()) {
+                            signinuser();
+                          }
+                        }),
                   ],
                 ),
               ),

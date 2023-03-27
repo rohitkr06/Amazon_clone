@@ -9,14 +9,19 @@ class Customtextfiel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      validator: (val) {},
+      validator: (val) {
+        if (val == null || val.isEmpty) {
+          return 'Enter your $hinttext';
+        }
+        return null;
+      },
       controller: controller,
       decoration: InputDecoration(
         hintText: hinttext,
-        border: OutlineInputBorder(
+        border: const OutlineInputBorder(
           borderSide: BorderSide(color: Colors.black38),
         ),
-        enabledBorder: OutlineInputBorder(
+        enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Colors.black38),
         ),
       ),
